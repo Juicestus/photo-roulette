@@ -5,7 +5,7 @@ import Style from "../Styles.module.css";
 import util from "../util";
 import Button from "./Button";
 
-const NameField: Component<{minLength: number, maxLength: number}> = (props): JSX.Element => {
+const NameField: Component<{onSubmit: (name: string) => void, minLength: number, maxLength: number}> = (props): JSX.Element => {
     const validCharacters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.';
 
     const [name, setName] = createSignal<string>("");
@@ -41,7 +41,7 @@ const NameField: Component<{minLength: number, maxLength: number}> = (props): JS
     }
 
     const submit = (): void => {
-        
+        if (valid()) props.onSubmit(name());
     }
 
     return (<>
