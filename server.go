@@ -37,8 +37,22 @@ func main() {
 	router := gin.Default()
 	server := socketio.NewServer(nil)
 
-	server.OnConnect("/", HandleSocketConnection)
-	server.OnEvent("/create", "create_game_with_hostname", CreateGameWithHostname)
+	// server.OnConnect("/", HandleSocketConnection)
+	server.OnConnect("/", func(s socketio.Conn) error {
+		s.Emit("connected", "")
+		log.Println("connected:", s.ID())
+		return nil
+	})
+
+	// server.OnEvent("/", "create_game_with_hostname", CreateGameWithHostname)
+
+	server.OnError("/", func(_ socketio.Conn, e error) {
+		log.Println("meet error:", e)
+	})
+
+	server.OnDisconnect("/", func(_ socketio.Conn, reason string) {
+		log.Println("closed", reason)
+	})
 
 	go DispatchSocket(server)
 	RouteServer(router, server)

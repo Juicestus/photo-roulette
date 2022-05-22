@@ -10,15 +10,22 @@ import socket from "../socket";
 import { io } from "socket.io-client";
 
 const Create: Component = (): JSX.Element => {
-    const socket = io("/create");
-    
-    socket.on("/create", "create_game_with_hostname_response", (hostname: string) => {
-        console.log(hostname);
+    let socket = io();
+    socket.connect();
+
+    socket.on("connect", function() {
+        console.log("Connected to server");
     });
+    console.log(socket);
+
+    
+    // socket.on("create_game_with_hostname_response", (hostname: string) => {
+    //     console.log(hostname);
+    // });
 
     const submit = (name: string): void => {
         console.log("Creating game with hostname " + name);
-        socket.emit("create_game_with_hostname", name);
+        // socket.emit("/create", "create_game_with_hostname", name);
     }
 
     return (<>

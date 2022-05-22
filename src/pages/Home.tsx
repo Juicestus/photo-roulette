@@ -1,12 +1,22 @@
 /* @refresh reload */
+import { io } from "socket.io-client";
 import { Link } from "solid-app-router";
 import { Component, JSX } from "solid-js";
 import Button from "../components/Button";
 import ButtonLink from "../components/ButtonLink";
 import Style from "../Styles.module.css";
-import util from "../util";
+import util from "../util"; 
+
 
 const Home: Component = (): JSX.Element => {
+    var socket = io();
+    socket.connect();
+    console.log(socket);
+
+    socket.on("connection", function() {
+        console.log("Connected to server");
+    });
+
     return (<>
         <div class={util.cls(Style.centered_xy, Style.purple_bg, Style.rounded_all)} style={util.sizepx(500, 540)}>
             <div class={util.cls(Style.centered_x)} style={util.widthpx(400)}>
