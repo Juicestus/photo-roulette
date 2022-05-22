@@ -1,0 +1,189 @@
+.red { color: #F40009; }
+.blue { color: #0d659c; }
+.green { color: #228B22; }
+.purple { color: #6f42c1; }
+.orange { color: #f2a900; }
+.white { color: white; }
+
+.redbg { background-color: #F40009; }
+.bluebg { background-color: #0d659c; }
+.greenbg { background-color: #228B22; }
+.purplebg { background-color: #6f42c1; }
+.orangebg { background-color: #f2a900; }
+.whitebg { background-color: white; }
+
+
+.br { border-radius: 35px; }
+.brtl { border-top-left-radius: 35px; }
+.brtr { border-top-right-radius: 35px; }
+.brbl { border-bottom-left-radius: 35px; }
+.brbr { border-bottom-right-radius: 35px; }
+
+
+.colo { background-color: #6f42c1; border-radius: 35px; }
+p {
+    font-family: "SFPro", Arial, Helvetica, sans-serif;
+    color: white;
+    font-size: 14px;
+}
+a { color:#1DA1F2; }
+a:hover { color:#0d659c; }
+h1, h2, h3, h4 {
+    font-family: "SFPro", Arial, Helvetica, sans-serif;
+    font-weight: 2000;
+    color: white;
+    padding: 0px;
+    border: 0px;
+    margin: 0px;
+}
+h1 { font-size: 56px; }
+h2 { font-size: 36px; }
+h3 { font-size: 28px; }
+h4 { font-size: 24px; }
+img {
+    max-width: 250px;
+    max-height: 250px;
+}
+body {
+    background-color: black;
+    padding: 10px;
+    margin: 0px; 
+}
+/*
+body, div, table, td {
+    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}*/
+.centerxy {
+    width: 600px;
+    height: 400px;
+    position: absolute; 
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    max-width: 100%;
+    max-height: 100%;
+    /*
+    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    */
+}
+
+.center {
+    /* position: absolute; 
+    margin: auto;
+    max-width: 100%; */
+        
+    height: 100vh; 
+    /* display: flex */
+    justify-content: center;
+    align-items: center;
+  }
+
+
+
+
+
+.editor {
+    color: black;
+    margin: 0px;
+    border: 0px white solid;
+    padding: 0x;
+    background-color: white;
+    border-radius: 10px;
+    height: 90px;
+    width: 100%;
+}
+input {
+    font-family: "SFPro", Arial, Helvetica, sans-serif;
+}
+button {
+    font-family: "SFPro", Arial, Helvetica, sans-serif;
+}
+
+input[type=text] {
+    margin: 0px;
+    padding: 10px;
+    border: 2px white solid;
+    border-radius: 15px;
+    width: calc(100% - 22px);
+}
+.btn {
+    font-family: arial;
+    margin: 0px;
+    padding: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 35px;
+    background-color: #228B22;
+    color: white;
+    border: 2px #228B22 solid;
+}
+.btn:hover {
+    background-color: #006400;
+    border: 2px #006400 solid;
+}
+.btn:disabled{
+    background-color: #006400;
+    border: 2px #006400 solid;
+}
+.btn-wrap {
+    margin: 0px;
+    padding: 0px;
+    background-color: none;
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    border: none;
+}
+.upl-btn-wrap input[type=file] {
+    font-size: 100px; position: absolute;
+}
+.upl-btn-wrap input[type=submit] {
+    font-size: 100px; position: absolute;
+}
+.btn-s {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 5px;
+    margin-left: 0px;
+    margin-right: 10px;
+}
+.players {
+    width: 65%; 
+    margin: 20px; 
+    margin-left: 70px;
+    overflow-x: wrap;
+}
+.lobby-div {
+    min-height: 10%; 
+    width: 100%; 
+    padding-top: 4%; 
+    padding-bottom: 4%;
+}
+.game-div {
+    min-height: 50px; 
+    width: 100%; 
+    padding-top: 15px; 
+    padding-bottom: 10px;
+}
+.vote {
+    padding: 10px;
+}
+.voteSelected {
+    font-family: arial;
+    margin: 0px;
+    padding: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 35px;
+    background-color: #015001;
+    border: 2px #015001 solid;
+    color: white;
+}
