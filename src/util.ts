@@ -8,5 +8,5 @@ const cls = (..._class: string[]): string => {
 
 export default {
     sizepx,
-    cls
+    cls,
 }
