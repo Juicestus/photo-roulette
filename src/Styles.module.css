@@ -12,11 +12,11 @@
 .orange_bg { background-color: #f2a900; }
 .white_bg { background-color: white; }
 
-.br { border-radius: 35px; }
-.br_tl { border-top-left-radius: 35px; }
-.br_tr { border-top-right-radius: 35px; }
-.br_bl { border-bottom-left-radius: 35px; }
-.br_br { border-bottom-right-radius: 35px; }
+.rounded_all { border-radius: 35px; }
+.rounded_tl { border-top-left-radius: 35px; }
+.rounded_tr { border-top-right-radius: 35px; }
+.rounded_bl { border-bottom-left-radius: 35px; }
+.rounded_br { border-bottom-right-radius: 35px; }
 
 .padded_10 { padding: 10px; }
 .padded_20 { padding: 20px; }
@@ -73,3 +73,39 @@ body {
     display: inline-block;
     border: none;
 }
+
+.btn {
+    font-family: arial;
+    margin: 0px;
+    padding: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 35px;
+    background-color: #228B22;
+    color: white;
+    border: 2px #228B22 solid;
+  }
+
+  .btn:hover {
+    background-color: #006400;
+    border: 2px #006400 solid;
+  }
+  .btn:disabled{
+    background-color: #006400;
+  }
+  
+  .btn_wrap {
+    margin: 0px;
+    padding: 0px;
+    background-color: none;
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    border: none;
+  }
+
+  .name_field {
+    font-size: 175%; 
+    width: 300px;
+  }
+  
