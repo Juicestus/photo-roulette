@@ -30,28 +30,24 @@
 </head>
 
 <body>
-  <div class="centered_xy purple_bg rounded_all" style="height: 540px; width: 500px;">
+    <div class="centered_xy purple_bg rounded_all" style="height: 540px; width: 500px;">
       <div class="centered_xy" style="height: 380px; width: 500px;">
-        <form method="POST">
           <div class="centered_x" style="width: 400px">
-            <h1>Photo Roulette</h1>
-            <h3>A game by <a href="https://www.justusl.com/">Justus Languell</a><br><br></h3>
+              <h1>Photo Roulette</h1>
+              <h3>A game by <a href="https://www.justusl.com/">Justus Languell</a><br><br></h3>
           </div>
           <br>
           <br>
           <div class="btn_wrap centered_xy">
-            <button type="button" class="btn" onclick="window.location.href='/join';"><h2>Join Game</h2></button>
+              <button type="button" class="btn" onclick="join()"><h2>Join Game</h2></button>
           </div>
           <br><br>
           <div class="btn_wrap centered_xy">
-            <button type="button" class="btn" onclick="$('#create_btn').click();"><h2>Create Game</h2></button><br>
+              <button type="button" class="btn" onclick="create()"><h2>Create Game</h2></button><br>
           </div>
-          <input id="create_btn" class="btn" type="submit" value="Create" style="visibility: hidden;"/>
           <br>
-        </form>
-    </table>
-    </div>
-  </div>
+      </div>
+  </div> 
 </body>
 
 </html>
