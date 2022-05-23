@@ -1,5 +1,5 @@
 /* @refresh reload */
-import { io } from "socket.io-client";
+import { io } from "socket.io-client"
 import { Link } from "solid-app-router";
 import { Component, JSX } from "solid-js";
 import Button from "../components/Button";
@@ -13,9 +13,10 @@ const Home: Component = (): JSX.Element => {
     socket.connect();
     console.log(socket);
 
-    socket.on("connection", function() {
+    socket.on("connect", function() {
         console.log("Connected to server");
     });
+
 
     return (<>
         <div class={util.cls(Style.centered_xy, Style.purple_bg, Style.rounded_all)} style={util.sizepx(500, 540)}>

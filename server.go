@@ -55,7 +55,11 @@ func main() {
 	})
 
 	go DispatchSocket(server)
-	RouteServer(router, server)
+
+	router.GET("/socket.io/*any", gin.WrapH(server))
+	router.POST("/socket.io/*any", gin.WrapH(server))
+
+	// RouteServer(router, server)
 
 	router.LoadHTMLFiles("./dist/index.html")
 	router.NoRoute(func(c *gin.Context) {
