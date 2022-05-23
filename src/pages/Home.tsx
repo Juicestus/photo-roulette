@@ -1,5 +1,5 @@
 /* @refresh reload */
-import { io } from "socket.io-client"
+import io from "socket.io-client";
 import { Link } from "solid-app-router";
 import { Component, JSX } from "solid-js";
 import Button from "../components/Button";

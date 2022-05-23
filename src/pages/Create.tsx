@@ -7,17 +7,8 @@ import NameField from "../components/NameField";
 import Style from "../Styles.module.css";
 import util from "../util";
 import socket from "../socket";
-import { io } from "socket.io-client";
 
 const Create: Component = (): JSX.Element => {
-    let socket = io();
-    socket.connect();
-
-    socket.on("connect", function() {
-        console.log("Connected to server");
-    });
-    console.log(socket);
-
     
     // socket.on("create_game_with_hostname_response", (hostname: string) => {
     //     console.log(hostname);
