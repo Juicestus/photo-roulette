@@ -18,7 +18,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
     integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
     crossorigin="anonymous">
-    </script>
+  </script>
+  <script src="/assets/src/index.js"></script>
+
   
   <!-- Fonts -->
   <style>
@@ -32,18 +34,16 @@
 <body>
     <div class="centered_xy purple_bg rounded_all" style="height: 540px; width: 500px;">
       <div class="centered_xy" style="height: 380px; width: 500px;">
-          <div class="centered_x" style="width: 400px">
+          <div class="centered_x" style="width: 400px; height: 25px;">
               <h1>Photo Roulette</h1>
               <h3>A game by <a href="https://www.justusl.com/">Justus Languell</a><br><br></h3>
           </div>
-          <br>
-          <br>
           <div class="btn_wrap centered_xy">
               <button type="button" class="btn" onclick="join()"><h2>Join Game</h2></button>
           </div>
           <br><br>
           <div class="btn_wrap centered_xy">
-              <button type="button" class="btn" onclick="create()"><h2>Create Game</h2></button><br>
+              <button type="button" class="btn" onclick="goToCreate();"><h2>Create Game</h2></button><br>
           </div>
           <br>
       </div>
