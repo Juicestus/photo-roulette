@@ -90,7 +90,7 @@ body {
     background-color: #006400;
     border: 2px #006400 solid;
   }
-  .btn:disabled{
+  .btn:disabled {
     background-color: #006400;
   }
   
@@ -106,6 +106,9 @@ body {
 
   .name_field {
     font-size: 175%; 
-    width: 300px;
+    width: 100%;
   }
   
+.centered_text {
+  text-align: center;
+}

@@ -1,3 +1,0 @@
-create_game_with_hostname (client -> server):
-    hostname (string)
-

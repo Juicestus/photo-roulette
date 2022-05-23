@@ -1,22 +1,17 @@
 /* @refresh reload */
 import { Link } from "solid-app-router";
-import { Component, JSX } from "solid-js";
-import Button from "../components/Button";
-import ButtonLink from "../components/ButtonLink";
+import { Component, createResource, createSignal, JSX, Show } from "solid-js";
 import NameField from "../components/NameField";
 import Style from "../Styles.module.css";
 import util from "../util";
-import socket from "../socket";
+import Cookies from "js-cookie";
 
 const Create: Component = (): JSX.Element => {
-    
-    // socket.on("create_game_with_hostname_response", (hostname: string) => {
-    //     console.log(hostname);
-    // });
-
-    const submit = (name: string): void => {
-        console.log("Creating game with hostname " + name);
-        // socket.emit("/create", "create_game_with_hostname", name);
+    const createGame = async (name: string): Promise<void> => {
+        var response = await (await fetch("/api/create?hostname=" + name)).json();
+        Cookies.set("game_id", response.game);
+        Cookies.set("user_public_key", response.public);
+        Cookies.set("user_name", response.name);
     }
 
     return (<>
@@ -24,9 +19,15 @@ const Create: Component = (): JSX.Element => {
             <div class={util.cls(Style.centered_x)} style={util.widthpx(400)}>
                 <br/>
                 <br/>
-                <h1>Create Game</h1>
+                <h1 class={Style.centered_text}>Create Game</h1>
             </div>
-            <NameField onSubmit={submit} minLength={3} maxLength={12}/>
+            <div class={util.cls(Style.centered_x)} style={util.widthpx(400)}>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <NameField btnTxt={"Create"} onSubmit={createGame} minLength={3} maxLength={12}/>
+            </div>
         </div>
     </>)
 };  

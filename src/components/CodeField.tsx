@@ -5,11 +5,12 @@ import Style from "../Styles.module.css";
 import util from "../util";
 import Button from "./Button";
 
-const NameField: Component<{onSubmit: (name: string) => void, minLength: number, 
-        maxLength: number, btnTxt?: string, onEdit?: () => void}> = (props): JSX.Element => {
-    const validCharacters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.';
+const CodeField: Component<{onSubmit: (name: string) => void, 
+        btnTxt?: string, onEdit?: () => void}> = (props): JSX.Element => {
+    const validCharacters: string = '1234567890';
+    const requiredLength: number = 4;
 
-    const [name, setName] = createSignal<string>("");
+    const [code, setCode] = createSignal<string>("");
     const [message, setMessage] = createSignal<string>("");
     const [valid, setValid] = createSignal<boolean>(false);
     const  [editted, setEditted] = createSignal<boolean>(false);
@@ -26,7 +27,7 @@ const NameField: Component<{onSubmit: (name: string) => void, minLength: number,
         setMessage(message);
         setValid(message == "");
     }
-    
+
     const inputLoop = (e: InputEvent): void => {
         if (!editted()) {
             if (props.onEdit != undefined)
@@ -35,30 +36,28 @@ const NameField: Component<{onSubmit: (name: string) => void, minLength: number,
         }
 
         if (e.target instanceof HTMLInputElement) {
-            setName(e.target.value);
+            setCode(e.target.value);
         }
 
-        if (name().length < props.minLength)
-            set("Name must be at least " + props.minLength + " characters long.");
-        else if (name().length > props.maxLength)
-            set("Name cannot exceed " + props.maxLength + " characters long.");
-        else if (!legalInput(name()))
+        if (code().length != requiredLength)
+            set("A code is " + requiredLength + " characters long.");
+        else if (!legalInput(code()))
             set("Invalid character used.");
         else
             set("");
     }
 
     const submit = (): void => {
-        if (valid()) props.onSubmit(name());
-        else set("Cannot submit invalid name.");
+        if (valid()) props.onSubmit(code());
+        else set("Cannot submit invalid code.");
     }
 
     return (<>
         <div>
             <br/>
             <div class={Style.centered_x} style={util.widthpx(300)}>
-                <input class={Style.name_field} onInput={inputLoop} minlength={props.minLength} 
-                        maxlength={props.maxLength} id="name" type="text" name="name" placeholder="Name"></input>
+                <input class={Style.name_field} onInput={inputLoop} minlength={4} 
+                        maxlength={4} id="code" type="text" name="code" placeholder="Code"></input>
             </div>
             <br/><br/>
             <div class={Style.centered_x} style={util.widthpx(250)}>
@@ -72,4 +71,4 @@ const NameField: Component<{onSubmit: (name: string) => void, minLength: number,
     </>)
 };  
 
-export default NameField;
+export default CodeField;
