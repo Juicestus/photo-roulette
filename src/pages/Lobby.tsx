@@ -10,7 +10,17 @@ import Button from "../components/Button";
 
 const Lobby: Component = (): JSX.Element => {
     const leave = async (): Promise<void> => {
-        console.log("leave");
+        var response = await (await fetch(
+            "/api/lobby?code=" + Cookies.get("game_code") 
+            + "&name=" + Cookies.get("user_name") 
+            + "&public=" + Cookies.get("user_public_key")
+            + "&action=leave"
+        )).json();
+
+        Cookies.remove("game_code");
+        Cookies.remove("game_id");
+        Cookies.remove("user_public_key");
+        window.location.href = "/";
     }
 
     const start = async (): Promise<void> => {
@@ -30,6 +40,11 @@ const Lobby: Component = (): JSX.Element => {
             + "&public=" + Cookies.get("user_public_key")
             + "&action=start"
         )).json();
+
+        if (response.hasOwnProperty("error"))
+            setMessage(response.error);
+        else
+            window.location.href = "/game";
     }
 
     const update = async (): Promise<void> => {
@@ -46,6 +61,9 @@ const Lobby: Component = (): JSX.Element => {
             setMessage(response.error);
             return;
         }
+
+        if (response.started)
+            window.location.href = "/game";
 
         setIsHost(response.ishost);
         setHostname(response.hostname);

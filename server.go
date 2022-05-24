@@ -55,6 +55,8 @@ type Game struct {
 
 	Host    Player
 	Players map[string]Player
+	Started bool
+	Round   int
 }
 
 func CreateGame(code string, host Player, uid int) Game {
@@ -63,6 +65,8 @@ func CreateGame(code string, host Player, uid int) Game {
 		Host:    host,
 		Players: map[string]Player{host.Name: host},
 		guid:    fmt.Sprintf("%016d", uid),
+		Started: false,
+		Round:   0,
 	}
 }
 
@@ -193,13 +197,47 @@ func (a *Application) HandleLobbyActions(ctx *gin.Context) {
 		players = append(players, player.Name)
 	}
 
-	ctx.IndentedJSON(http.StatusOK, gin.H{
-		"guid":     game.guid,
-		"name":     player.Name,
-		"ishost":   host,
-		"players":  players,
-		"hostname": game.Host.Name,
-	})
+	action := ctx.Request.URL.Query()["action"]
+	if action == nil {
+		ctx.IndentedJSON(http.StatusBadRequest, CreateJSONError("Action not specified", 10))
+		return
+	}
+
+	if action[0] == "update" {
+		// log.Printf("%s -> %t\n", game.Id, game.Started)
+		ctx.IndentedJSON(http.StatusOK, gin.H{
+			"guid":     game.guid,
+			"name":     player.Name,
+			"ishost":   host,
+			"players":  players,
+			"hostname": game.Host.Name,
+			"started":  game.Started,
+		})
+	} else if action[0] == "start" {
+		log.Printf("%s -> %t\n", game.Id, host)
+		if !host {
+			ctx.IndentedJSON(http.StatusForbidden, CreateJSONError("Not host", 11))
+			return
+		}
+		game.Started = true
+		ctx.IndentedJSON(http.StatusOK, gin.H{
+			"guid":     game.guid,
+			"name":     player.Name,
+			"ishost":   host,
+			"players":  players,
+			"hostname": game.Host.Name,
+			"started":  game.Started,
+		})
+		a.Games[game.Id] = game
+	} else if action[0] == "leave" {
+		delete(game.Players, player.Name)
+		ctx.IndentedJSON(http.StatusOK, gin.H{})
+		if host {
+			delete(a.Games, game.Id)
+		}
+	} else {
+		ctx.IndentedJSON(http.StatusBadRequest, CreateJSONError("Invalid action", 11))
+	}
 }
 
 func main() {
