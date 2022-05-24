@@ -11,24 +11,26 @@ const Join: Component = (): JSX.Element => {
     const joinGame = async (): Promise<void> => {
         var response = await (await fetch("/api/join?code=" + code() + "&name=" + name())).json();
 
-        if (!response.hasOwnProperty("error")) {
-            setMessage("");
-            console.log(response);
-            Cookies.set("game_id", response.game);
-            Cookies.set("user_public_key", response.public);
-            Cookies.set("user_name", response.name);
+        if (response.hasOwnProperty("error")) {
+            if (response.code == 5) {
+                var _code = code()
+                setCode("");
+                setCode(_code);
+            } else 
+                setCode("");
+
+            setName("");
+            setMessage(response.error);
             return;
         }
 
-        if (response.code == 5) {
-            var _code = code()
-            setCode("");
-            setCode(_code);
-        } else 
-            setCode("");
-
-        setName("");
-        setMessage(response.error);
+        setMessage("");
+        console.log(response);
+        Cookies.set("game_code", response.game);
+        Cookies.set("game_id", response.guid);
+        Cookies.set("user_public_key", response.public);
+        Cookies.set("user_name", response.name);
+        window.location.href = "/lobby";
     }
 
     var [code, setCode] = createSignal<string>("");

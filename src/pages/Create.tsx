@@ -9,9 +9,11 @@ import Cookies from "js-cookie";
 const Create: Component = (): JSX.Element => {
     const createGame = async (name: string): Promise<void> => {
         var response = await (await fetch("/api/create?hostname=" + name)).json();
-        Cookies.set("game_id", response.game);
+        Cookies.set("game_code", response.game);
+        Cookies.set("game_id", response.guid);
         Cookies.set("user_public_key", response.public);
         Cookies.set("user_name", response.name);
+        window.location.href = "/lobby";
     }
 
     return (<>

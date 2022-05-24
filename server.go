@@ -26,12 +26,12 @@ func HashString(str string) string {
 }
 
 func NewRandomString() string {
-	return fmt.Sprintf("%x", sha256.Sum256([]byte(string(time.Now().Unix()))))[:32]
+	return fmt.Sprintf("%x", sha256.Sum256([]byte(fmt.Sprintf("%d", RandInt(1, 999999999999)))))[:32]
 }
 
 type Player struct {
-	PrivateKey string
-	TargetKey  string
+	privateKey string
+	targetKey  string
 
 	Name string `json:"name"`
 }
@@ -42,25 +42,27 @@ func CreatePlayer(name string) (Player, string) {
 
 	p := Player{
 		Name:       name,
-		PrivateKey: private,
-		TargetKey:  HashString(private + public),
+		privateKey: private,
+		targetKey:  HashString(private + public),
 	}
 
 	return p, public
 }
 
 type Game struct {
-	Id string
+	Id   string
+	guid string
 
 	Host    Player
 	Players map[string]Player
 }
 
-func CreateGame(code string, host Player) Game {
+func CreateGame(code string, host Player, uid int) Game {
 	return Game{
 		Id:      code,
 		Host:    host,
 		Players: map[string]Player{host.Name: host},
+		guid:    fmt.Sprintf("%016d", uid),
 	}
 }
 
@@ -75,10 +77,19 @@ func (g *Game) AddPlayer(p Player) bool {
 
 type Application struct {
 	Games map[string]Game
+	guid  int
 }
 
 func CreateApplication() *Application {
-	return &Application{Games: make(map[string]Game)}
+	return &Application{
+		Games: make(map[string]Game),
+		guid:  0,
+	}
+}
+
+func (a *Application) GetGUID() int {
+	a.guid++
+	return a.guid
 }
 
 func (a *Application) HandleCreateGame(ctx *gin.Context) {
@@ -95,12 +106,13 @@ func (a *Application) HandleCreateGame(ctx *gin.Context) {
 		code = fmt.Sprintf("%04d", RandInt(1, 9999))
 		_, found = a.Games[code]
 	}
-	game := CreateGame(code, host)
+	game := CreateGame(code, host, a.GetGUID())
 	a.Games[game.Id] = game
 
 	log.Println("Created game #" + game.Id)
 
 	ctx.IndentedJSON(http.StatusOK, gin.H{
+		"guid":   game.guid,
 		"name":   host.Name,
 		"public": public,
 		"game":   game.Id,
@@ -133,6 +145,7 @@ func (a *Application) HandleJoinGame(ctx *gin.Context) {
 	}
 
 	ctx.IndentedJSON(http.StatusOK, gin.H{
+		"guid":   game.guid,
 		"name":   player.Name,
 		"public": public,
 		"game":   game.Id,
@@ -140,7 +153,58 @@ func (a *Application) HandleJoinGame(ctx *gin.Context) {
 
 }
 
+func (a *Application) HandleLobbyActions(ctx *gin.Context) {
+	code := ctx.Request.URL.Query()["code"]
+	if code == nil {
+		ctx.IndentedJSON(http.StatusBadRequest, CreateJSONError("Code not specified", 6))
+		return
+	}
+
+	game, ok := a.Games[code[0]]
+	if !ok {
+		ctx.IndentedJSON(http.StatusNotFound, CreateJSONError("Game not found", 7))
+		return
+	}
+
+	name := ctx.Request.URL.Query()["name"]
+	if code == nil {
+		ctx.IndentedJSON(http.StatusBadRequest, CreateJSONError("Name not specified", 8))
+		return
+	}
+
+	player := game.Players[name[0]]
+
+	public := ctx.Request.URL.Query()["public"]
+	if public == nil {
+		ctx.IndentedJSON(http.StatusBadRequest, CreateJSONError("Public key not specified", 8))
+		return
+	}
+
+	auth := HashString(player.privateKey+public[0]) == player.targetKey
+	if !auth {
+		ctx.IndentedJSON(http.StatusUnauthorized, CreateJSONError("Invalid key", 9))
+		return
+	}
+
+	host := player.targetKey == game.Host.targetKey
+
+	players := []string{}
+	for _, player := range game.Players {
+		players = append(players, player.Name)
+	}
+
+	ctx.IndentedJSON(http.StatusOK, gin.H{
+		"guid":     game.guid,
+		"name":     player.Name,
+		"ishost":   host,
+		"players":  players,
+		"hostname": game.Host.Name,
+	})
+}
+
 func main() {
+	rand.Seed(time.Now().UnixNano())
+
 	router := gin.Default()
 	app := CreateApplication()
 
@@ -148,6 +212,7 @@ func main() {
 
 	router.GET("/api/create", app.HandleCreateGame)
 	router.GET("/api/join", app.HandleJoinGame)
+	router.GET("/api/lobby", app.HandleLobbyActions)
 
 	router.NoRoute(func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.html", nil)

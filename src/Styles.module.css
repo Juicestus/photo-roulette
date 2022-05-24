@@ -112,3 +112,11 @@ body {
 .centered_text {
   text-align: center;
 }
+
+.left_div {
+  width: 50%; float: left; 
+}
+
+.right_div {
+  margin-left: 50%; 
+}
