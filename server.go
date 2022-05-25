@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gin-contrib/cors" // development only
 	"github.com/gin-gonic/gin"
 )
 
@@ -255,6 +256,13 @@ func main() {
 	router.NoRoute(func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.html", nil)
 	})
+
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"http://localhost:3000"}
+
+	//router.Use(cors.New(config))
+	router.Use(cors.Default())
+
 	router.Static("/assets", "./dist/assets/")
 
 	router.Run("localhost:8080")

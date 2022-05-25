@@ -8,8 +8,10 @@ import Cookies from "js-cookie";
 import CodeField from "../components/CodeField";
 
 const Join: Component = (): JSX.Element => {
+    const url: string = "";
+
     const joinGame = async (): Promise<void> => {
-        var response = await (await fetch("/api/join?code=" + code() + "&name=" + name())).json();
+        var response = await (await fetch(url + "/api/join?code=" + code() + "&name=" + name())).json();
 
         if (response.hasOwnProperty("error")) {
             if (response.code == 5) {

@@ -9,9 +9,11 @@ import CodeField from "../components/CodeField";
 import Button from "../components/Button";
 
 const Lobby: Component = (): JSX.Element => {
+    const url: string = "";
+
     const leave = async (): Promise<void> => {
-        var response = await (await fetch(
-            "/api/lobby?code=" + Cookies.get("game_code") 
+        var response = await (await fetch(url
+            + "/api/lobby?code=" + Cookies.get("game_code") 
             + "&name=" + Cookies.get("user_name") 
             + "&public=" + Cookies.get("user_public_key")
             + "&action=leave"
@@ -34,8 +36,8 @@ const Lobby: Component = (): JSX.Element => {
             return;
         }
             
-        var response = await (await fetch(
-            "/api/lobby?code=" + Cookies.get("game_code") 
+        var response = await (await fetch(url
+            + "/api/lobby?code=" + Cookies.get("game_code") 
             + "&name=" + Cookies.get("user_name") 
             + "&public=" + Cookies.get("user_public_key")
             + "&action=start"
@@ -48,8 +50,8 @@ const Lobby: Component = (): JSX.Element => {
     }
 
     const update = async (): Promise<void> => {
-        var response = await (await fetch(
-                "/api/lobby?code=" + Cookies.get("game_code") 
+        var response = await (await fetch(url
+                + "/api/lobby?code=" + Cookies.get("game_code") 
                 + "&name=" + Cookies.get("user_name") 
                 + "&public=" + Cookies.get("user_public_key")
                 + "&action=update"
