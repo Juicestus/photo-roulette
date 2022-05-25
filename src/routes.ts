@@ -4,6 +4,7 @@ import Create from './pages/Create';
 import Home from './pages/Home';
 import Join from './pages/Join';
 import Lobby from './pages/Lobby';
+import Select from './pages/Select';
 
 export const routes: RouteDefinition[] = [
   {
@@ -21,5 +22,9 @@ export const routes: RouteDefinition[] = [
   {
     path: '/lobby',
     component: Lobby,
+  }, 
+  {
+    path: '/select',
+    component: Select,
   }, 
 ];

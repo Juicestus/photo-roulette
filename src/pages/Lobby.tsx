@@ -130,7 +130,7 @@ const Lobby: Component = (): JSX.Element => {
             </div>
 
         </div>
-    </>)
-};  
+    </>);
+}
 
 export default Lobby;
