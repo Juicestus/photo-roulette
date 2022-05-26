@@ -13,6 +13,13 @@ const Select: Component = (): JSX.Element => {
     const maxFileSize = 8e6;
     const legalExtensions: string[] = ['png','jpeg','jpg','gif'];
 
+    const [message, setMessage] = createSignal<string>("");
+    const [pictures, setPictures] = createSignal<string[]>([]);
+
+    const appendPictures = (id: string): void => {
+        setPictures(pictures => pictures.concat([id]));
+    }
+
     const isFilenameLegal = (name: string): boolean => {
         var extension = name.split('.').pop();
         if (!extension) return false;
@@ -31,6 +38,12 @@ const Select: Component = (): JSX.Element => {
         setMessage(message);
     }
 
+    const imageID = (): number => {
+        var id = localStorage.getItem("image_id");
+        if (!id) id = "0";
+        return parseInt(id);
+    }
+
     const incrementedImageID = (): number => {
         var id = localStorage.getItem("image_id");
         if (!id) id = "0";
@@ -42,7 +55,7 @@ const Select: Component = (): JSX.Element => {
     const handleImageStore = async (image: string): Promise<void> => {
         const key: string = "image_" + incrementedImageID();
         localStorage.setItem(key, image);
-        setPictures(pictures().concat(key));
+        appendPictures(key);
     }
 
     const handleImageReading = async (file: File): Promise<void> => {
@@ -79,8 +92,8 @@ const Select: Component = (): JSX.Element => {
         });
     }
 
-    const [message, setMessage] = createSignal<string>("");
-    const [pictures, setPictures] = createSignal<string[]>([]);
+    for (var i = 1; i <= imageID(); i++)
+        appendPictures("image_" + i);
 
     return (<>
         <div class={util.cls(Style.centered_xy, Style.purple_bg, Style.rounded_all)} style={util.sizepx(500, 700)}>
